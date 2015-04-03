@@ -106,7 +106,7 @@
 		915ADB8D7DC27C6AB9CAFB86 /* NSObject+KiwiMockAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 22EBAFFA178E504373938CFD /* NSObject+KiwiMockAdditions.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
 		937A9BC7833DCB6CDDE85215 /* KWRegularExpressionPatternMatcher.h in Headers */ = {isa = PBXBuildFile; fileRef = 819F52E8839633633E487DCB /* KWRegularExpressionPatternMatcher.h */; };
 		940FDF0CD8EF894234A11DAD /* KWWorkarounds.h in Headers */ = {isa = PBXBuildFile; fileRef = 33417A15EDD19E54C66F87B5 /* KWWorkarounds.h */; };
-		942DAF8E1ACEA15700285B6C /* Recorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942DAF8D1ACEA15700285B6C /* Recorder.swift */; };
+		942DAF8E1ACEA15700285B6C /* Recording.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942DAF8D1ACEA15700285B6C /* Recording.swift */; };
 		94A5262BFBC53DAEE12C16C5 /* KWContainStringMatcher.h in Headers */ = {isa = PBXBuildFile; fileRef = 324C024418DB4B4EA5F4BBD9 /* KWContainStringMatcher.h */; };
 		9962E4CFA22EB629B7C59A92 /* NSObject+KiwiStubAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EA8CEB66A9F4DC01D8F39A0 /* NSObject+KiwiStubAdditions.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
 		99EAA86BA120D77CE98C5036 /* Pods-Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = E5AD64678ACB649600D3971E /* Pods-Tests-dummy.m */; };
@@ -348,7 +348,7 @@
 		91ADA57FB1672E4D78F7E478 /* KWLet.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = KWLet.h; path = Classes/Core/KWLet.h; sourceTree = "<group>"; };
 		91DE8A721894F76FCC0CDCBA /* KWExampleSuiteBuilder.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = KWExampleSuiteBuilder.m; path = Classes/Core/KWExampleSuiteBuilder.m; sourceTree = "<group>"; };
 		93668348DCBB87C7F7CF5148 /* KWStringPrefixMatcher.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = KWStringPrefixMatcher.m; path = Classes/Matchers/KWStringPrefixMatcher.m; sourceTree = "<group>"; };
-		942DAF8D1ACEA15700285B6C /* Recorder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Recorder.swift; path = Pod/Classes/Recorder.swift; sourceTree = "<group>"; };
+		942DAF8D1ACEA15700285B6C /* Recording.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Recording.swift; path = Pod/Classes/Recording.swift; sourceTree = "<group>"; };
 		947738706974D7F4E21E3D0C /* KWContextNode.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = KWContextNode.h; path = Classes/Nodes/KWContextNode.h; sourceTree = "<group>"; };
 		999963F28FDC27F23DB2FBB5 /* KWBeSubclassOfClassMatcher.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = KWBeSubclassOfClassMatcher.h; path = Classes/Matchers/KWBeSubclassOfClassMatcher.h; sourceTree = "<group>"; };
 		9BAA3C77B4A04833DCD32F45 /* KWExampleNodeVisitor.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = KWExampleNodeVisitor.h; path = Classes/Core/KWExampleNodeVisitor.h; sourceTree = "<group>"; };
@@ -493,7 +493,7 @@
 		346FA3C1693316ADA89E02EC /* Recorder */ = {
 			isa = PBXGroup;
 			children = (
-				942DAF8D1ACEA15700285B6C /* Recorder.swift */,
+				942DAF8D1ACEA15700285B6C /* Recording.swift */,
 			);
 			name = Recorder;
 			path = ../..;
@@ -1027,7 +1027,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3F8A5401EC59A468D40E0267 /* Pods-Recorder-dummy.m in Sources */,
-				942DAF8E1ACEA15700285B6C /* Recorder.swift in Sources */,
+				942DAF8E1ACEA15700285B6C /* Recording.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
