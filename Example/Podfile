@@ -1,0 +1,11 @@
+source 'https://github.com/CocoaPods/Specs.git'
+
+target 'Recorder', :exclusive => true do
+  pod "Recorder", :path => "../"
+end
+
+target 'Tests', :exclusive => true do
+  pod "Recorder", :path => "../"
+
+  pod 'Kiwi'
+end
