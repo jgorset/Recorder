@@ -1,6 +1,6 @@
 import AVFoundation
 
-class Recording {
+public class Recording {
     var recorder: AVAudioRecorder!
     var player: AVAudioPlayer!
     var session: AVAudioSession!
@@ -20,14 +20,14 @@ class Recording {
         AVSampleRateKey: 44100.0
     ]
     
-    init(to: NSString, on: AVAudioRecorderDelegate)
+    public init(to: NSString, on: AVAudioRecorderDelegate)
     {
         self.delegate = on
         self.session = AVAudioSession.sharedInstance()
         self.url = NSURL(fileURLWithPath: directory.stringByAppendingPathComponent(to))
     }
     
-    func record()
+    public func record()
     {
         self.session.setCategory(AVAudioSessionCategoryRecord, error: nil)
         
@@ -37,12 +37,12 @@ class Recording {
         recorder.record()
     }
     
-    func stop()
+    public func stop()
     {
         recorder.stop()
     }
     
-    func play()
+    public func play()
     {
         self.session.setCategory(AVAudioSessionCategoryPlayback, error: nil)
         
