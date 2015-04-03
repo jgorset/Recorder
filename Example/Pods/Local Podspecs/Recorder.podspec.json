@@ -1,0 +1,25 @@
+{
+  "name": "Recorder",
+  "version": "0.1.0",
+  "summary": "A short description of Recorder.",
+  "description": "                       An optional longer description of Recorder\n\n                       * Markdown format.\n                       * Don't worry about the indent, we strip it!\n",
+  "homepage": "https://github.com/<GITHUB_USERNAME>/Recorder",
+  "license": "MIT",
+  "authors": {
+    "Johannes Gorset": "jgorset@gmail.com"
+  },
+  "source": {
+    "git": "https://github.com/<GITHUB_USERNAME>/Recorder.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "7.0"
+  },
+  "requires_arc": true,
+  "source_files": "Pod/Classes/**/*",
+  "resource_bundles": {
+    "Recorder": [
+      "Pod/Assets/*.png"
+    ]
+  }
+}
