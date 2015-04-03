@@ -7,9 +7,38 @@
 
 ## Usage
 
-To run the example project, clone the repo, and run `pod install` from the Example directory first.
+```swift
+class ViewController: UIViewController, AVAudioRecorderDelegate {
+    var recording: Recording!
+
+    override func viewDidLoad()
+    {
+        super.viewDidLoad()
+
+        self.recording = Recording(to: "recording.m4a", on: self)
+    }
+
+    func start()
+    {
+        self.recording.record()
+    }
+
+    func stop()
+    {
+        self.recording.stop()
+    }
+
+    func play()
+    {
+        self.recording.play()
+    }
+
+}
+```
 
 ## Requirements
+
+* Balls of steel (it's my first pod, and it's really bad).
 
 ## Installation
 
