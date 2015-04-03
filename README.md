@@ -42,7 +42,7 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
 
 ## Requirements
 
-* Balls of steel (it's my first pod, and it's really bad).
+* Balls of steel (it's my first pod, and it's really bad)
 
 ## Installation
 
