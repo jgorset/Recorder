@@ -8,6 +8,10 @@
 ## Usage
 
 ```swift
+import UIKit
+import AVFoundation
+import Recorder
+
 class ViewController: UIViewController, AVAudioRecorderDelegate {
     var recording: Recording!
 
