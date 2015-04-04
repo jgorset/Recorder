@@ -19,7 +19,7 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
     {
         super.viewDidLoad()
 
-       recording = Recording(to: "recording.m4a", on: self)
+        recording = Recording(to: "recording.m4a", on: self)
     }
 
     func start()
