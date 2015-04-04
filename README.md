@@ -40,6 +40,14 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
 }
 ```
 
+## Configuration
+
+The following configurations may be made to the `Recording` instance:
+
+* `bitRate` (default 192000)
+* `sampleRate` (default 41000.0)
+* `channels` (default 1)
+
 ## Requirements
 
 * Balls of steel (it's my first pod, and it's really bad)
