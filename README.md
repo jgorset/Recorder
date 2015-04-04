@@ -19,22 +19,22 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
     {
         super.viewDidLoad()
 
-        self.recording = Recording(to: "recording.m4a", on: self)
+       recording = Recording(to: "recording.m4a", on: self)
     }
 
     func start()
     {
-        self.recording.record()
+       recording.record()
     }
 
     func stop()
     {
-        self.recording.stop()
+        recording.stop()
     }
 
     func play()
     {
-        self.recording.play()
+        recording.play()
     }
 
 }
@@ -50,6 +50,7 @@ Recorder is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
 ```ruby
+use_frameworks!
 pod "Recorder"
 ```
 
