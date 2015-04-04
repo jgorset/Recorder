@@ -12,13 +12,9 @@ public class Recording {
     
     var url: NSURL!
     
-    let settings = [
-        AVFormatIDKey: kAudioFormatAppleLossless,
-        AVEncoderAudioQualityKey: AVAudioQuality.Max.rawValue,
-        AVEncoderBitRateKey: 32000,
-        AVNumberOfChannelsKey: 2,
-        AVSampleRateKey: 44100.0
-    ]
+    var bitRate = 192000
+    var sampleRate = 44100.0
+    var channels = 1
     
     public init(to: NSString, on: AVAudioRecorderDelegate)
     {
@@ -31,7 +27,15 @@ public class Recording {
     {
         self.session.setCategory(AVAudioSessionCategoryRecord, error: nil)
         
-        self.recorder = AVAudioRecorder(URL: url, settings: settings, error: nil)
+        self.recorder = AVAudioRecorder(URL: url, settings: [
+            AVFormatIDKey: kAudioFormatAppleLossless,
+            AVEncoderAudioQualityKey: AVAudioQuality.Max.rawValue,
+            AVEncoderBitRateKey: bitRate,
+            AVNumberOfChannelsKey: channels,
+            AVSampleRateKey: sampleRate
+        ]
+        , error: nil)
+
         recorder.delegate = delegate
         
         recorder.record()
