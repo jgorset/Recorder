@@ -76,7 +76,7 @@ public class Recording : NSObject {
     
     public func startMetering()
     {
-        meterTimer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: "updateMeter", userInfo: nil, repeats: true)
+        meterTimer = NSTimer.scheduledTimerWithTimeInterval(0.05, target: self, selector: "updateMeter", userInfo: nil, repeats: true)
     }
     
     public func updateMeter()
