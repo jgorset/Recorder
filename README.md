@@ -44,9 +44,9 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
 
 The following configurations may be made to the `Recording` instance:
 
-* `bitRate` (default 192000)
-* `sampleRate` (default 41000.0)
-* `channels` (default 1)
+* `bitRate` (default `192000`)
+* `sampleRate` (default `41000.0`)
+* `channels` (default `1`)
 
 ## Requirements
 
