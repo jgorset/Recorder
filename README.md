@@ -9,7 +9,6 @@
 
 ```swift
 import UIKit
-import AVFoundation
 import Recorder
 
 class ViewController: UIViewController, RecorderDelegate {
