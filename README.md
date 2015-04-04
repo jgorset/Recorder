@@ -12,7 +12,7 @@ import UIKit
 import AVFoundation
 import Recorder
 
-class ViewController: UIViewController, AVAudioRecorderDelegate {
+class ViewController: UIViewController, RecorderDelegate {
     var recording: Recording!
 
     override func viewDidLoad()
@@ -38,6 +38,19 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
     }
 
 }
+```
+
+## Metering
+
+You can meter incoming audio levels by implementing `audioMeterDidUpdate`:
+
+```swift
+
+func audioMeterDidUpdate(db: Float)
+{
+    NSLog("db level: %f", db)
+}
+
 ```
 
 ## Configuration

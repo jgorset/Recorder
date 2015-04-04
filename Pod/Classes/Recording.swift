@@ -1,25 +1,34 @@
 import AVFoundation
 
-public class Recording {
+@objc public protocol RecorderDelegate: AVAudioRecorderDelegate {
+    optional func audioMeterDidUpdate(db: Float)
+}
+
+public class Recording : NSObject {
     var recorder: AVAudioRecorder!
     var player: AVAudioPlayer!
     var session: AVAudioSession!
-    var delegate: AVAudioRecorderDelegate!
+    var delegate: RecorderDelegate!
+    var metering: Bool
+    var url: NSURL!
+    var meterTimer: NSTimer!
     
     var directory: NSString {
         return NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as NSString
     }
     
-    var url: NSURL!
-    
     var bitRate = 192000
     var sampleRate = 44100.0
     var channels = 1
     
-    public init(to: NSString, on: AVAudioRecorderDelegate)
+    public init(to: NSString, on: RecorderDelegate, withMetering:Bool = false)
     {
         self.delegate = on
-        self.session = AVAudioSession.sharedInstance()
+        self.metering = withMetering
+        self.session  = AVAudioSession.sharedInstance()
+        
+        super.init()
+        
         self.url = NSURL(fileURLWithPath: directory.stringByAppendingPathComponent(to))
     }
     
@@ -38,12 +47,23 @@ public class Recording {
 
         recorder.delegate = delegate
         
+        recorder.prepareToRecord()
+        
+        if metering {
+            recorder.meteringEnabled = metering
+            startMetering()
+        }
+        
         recorder.record()
     }
     
     public func stop()
     {
         recorder.stop()
+        
+        if metering {
+            stopMetering()
+        }
     }
     
     public func play()
@@ -52,6 +72,25 @@ public class Recording {
         
         self.player = AVAudioPlayer(contentsOfURL: url, error: nil)
         player.play()
+    }
+    
+    public func startMetering()
+    {
+        meterTimer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: "updateMeter", userInfo: nil, repeats: true)
+    }
+    
+    public func updateMeter()
+    {
+        recorder.updateMeters()
+
+        var db = recorder.averagePowerForChannel(0)
+
+        delegate.audioMeterDidUpdate?(db)
+    }
+    
+    public func stopMetering()
+    {
+        meterTimer.invalidate()
     }
     
 }
