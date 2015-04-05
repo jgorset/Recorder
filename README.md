@@ -46,6 +46,9 @@ class ViewController: UIViewController, RecorderDelegate {
 }
 ```
 
+`RecorderDelegate` is just a subclass of `AVAudioRecorderDelegate`, so if you need to delegate things
+you can just implement those methods as you would normally do.
+
 ## Metering
 
 You can meter incoming audio levels by implementing `audioMeterDidUpdate`:
