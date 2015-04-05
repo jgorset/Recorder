@@ -1,7 +1,7 @@
 import AVFoundation
 
 @objc public protocol RecorderDelegate: AVAudioRecorderDelegate {
-    optional func audioMeterDidUpdate(db: Float)
+    optional func audioMeterDidUpdate(dB: Float)
 }
 
 public class Recording : NSObject {
@@ -85,9 +85,9 @@ public class Recording : NSObject {
     {
         recorder.updateMeters()
 
-        var db = recorder.averagePowerForChannel(0)
+        var dB = recorder.averagePowerForChannel(0)
 
-        delegate.audioMeterDidUpdate?(db)
+        delegate.audioMeterDidUpdate?(dB)
     }
 
     private func startMetering()
