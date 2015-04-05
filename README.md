@@ -19,6 +19,12 @@ class ViewController: UIViewController, RecorderDelegate {
         super.viewDidLoad()
 
         recording = Recording(to: "recording.m4a", on: self)
+
+        // Optionally, you can prepare the recording in the background to
+        // make it start recording faster when you hit `record()`.
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+            recording.prepare()
+        }
     }
 
     func start()

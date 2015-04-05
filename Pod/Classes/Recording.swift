@@ -21,6 +21,8 @@ public class Recording : NSObject {
     var sampleRate = 44100.0
     var channels = 1
     
+    var prepared = false
+
     public init(to: NSString, on: RecorderDelegate, withMetering:Bool = false)
     {
         self.delegate = on
@@ -32,18 +34,15 @@ public class Recording : NSObject {
         self.url = NSURL(fileURLWithPath: directory.stringByAppendingPathComponent(to))
     }
     
-    public func record()
+    public func prepare()
     {
-        self.session.setCategory(AVAudioSessionCategoryRecord, error: nil)
-        
         self.recorder = AVAudioRecorder(URL: url, settings: [
             AVFormatIDKey: kAudioFormatAppleLossless,
             AVEncoderAudioQualityKey: AVAudioQuality.Max.rawValue,
             AVEncoderBitRateKey: bitRate,
             AVNumberOfChannelsKey: channels,
             AVSampleRateKey: sampleRate
-        ]
-        , error: nil)
+        ], error: nil)
 
         recorder.delegate = delegate
         
@@ -54,6 +53,16 @@ public class Recording : NSObject {
             startMetering()
         }
         
+        prepared = true
+    }
+
+    public func record()
+    {
+        if !prepared {
+            prepare()
+        }
+
+        self.session.setCategory(AVAudioSessionCategoryRecord, error: nil)
         recorder.record()
     }
     
