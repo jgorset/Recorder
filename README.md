@@ -14,8 +14,7 @@ import Recorder
 class ViewController: UIViewController, RecorderDelegate {
     var recording: Recording!
 
-    override func viewDidLoad()
-    {
+    override func viewDidLoad() {
         super.viewDidLoad()
 
         recording = Recording(to: "recording.m4a")
@@ -28,18 +27,15 @@ class ViewController: UIViewController, RecorderDelegate {
         }
     }
 
-    func start()
-    {
+    func start() {
         recording.record()
     }
 
-    func stop()
-    {
+    func stop() {
         recording.stop()
     }
 
-    func play()
-    {
+    func play() {
         recording.play()
     }
 

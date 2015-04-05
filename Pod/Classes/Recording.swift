@@ -26,8 +26,7 @@ public class Recording : NSObject {
 
     private var link: CADisplayLink?
 
-    public init(to: NSString)
-    {
+    public init(to: NSString) {
         session  = AVAudioSession.sharedInstance()
         
         super.init()
@@ -35,8 +34,7 @@ public class Recording : NSObject {
         url = NSURL(fileURLWithPath: directory.stringByAppendingPathComponent(to))
     }
     
-    public func prepare()
-    {
+    public func prepare() {
         recorder = AVAudioRecorder(URL: url, settings: [
             AVFormatIDKey: kAudioFormatAppleLossless,
             AVEncoderAudioQualityKey: AVAudioQuality.Max.rawValue,
@@ -51,8 +49,7 @@ public class Recording : NSObject {
         recorder.meteringEnabled = metering
     }
 
-    public func record()
-    {
+    public func record() {
         if recorder == nil {
             prepare()
         }
@@ -66,8 +63,7 @@ public class Recording : NSObject {
         recorder.record()
     }
     
-    public func stop()
-    {
+    public func stop() {
         recorder.stop()
 
         if metering {
@@ -75,16 +71,14 @@ public class Recording : NSObject {
         }
     }
     
-    public func play()
-    {
+    public func play() {
         session.setCategory(AVAudioSessionCategoryPlayback, error: nil)
 
         player = AVAudioPlayer(contentsOfURL: url, error: nil)
         player.play()
     }
 
-    public func updateMeter()
-    {
+    public func updateMeter() {
         recorder.updateMeters()
 
         var dB = recorder.averagePowerForChannel(0)
@@ -92,14 +86,12 @@ public class Recording : NSObject {
         delegate.audioMeterDidUpdate?(dB)
     }
 
-    private func startMetering()
-    {
+    private func startMetering() {
         link = CADisplayLink(target: self, selector: "updateMeter")
         link?.addToRunLoop(NSRunLoop.currentRunLoop(), forMode: NSRunLoopCommonModes)
     }
     
-    private func stopMetering()
-    {
+    private func stopMetering() {
         link?.invalidate()
     }
     
