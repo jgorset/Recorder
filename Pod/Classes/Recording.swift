@@ -8,6 +8,7 @@ public class Recording : NSObject {
     public var delegate: RecorderDelegate!
 
     var session: AVAudioSession!
+    var recorder: AVAudioRecorder!
     var player: AVAudioPlayer!
     var url: NSURL!
 
@@ -23,21 +24,6 @@ public class Recording : NSObject {
         return NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as NSString
     }
 
-    lazy var recorder: AVAudioRecorder = {
-        var recorder = AVAudioRecorder(URL: self.url, settings: [
-            AVFormatIDKey: kAudioFormatAppleLossless,
-            AVEncoderAudioQualityKey: AVAudioQuality.Max.rawValue,
-            AVEncoderBitRateKey: self.bitRate,
-            AVNumberOfChannelsKey: self.channels,
-            AVSampleRateKey: self.sampleRate
-        ], error: nil)
-
-        recorder.delegate = self.delegate
-        recorder.meteringEnabled = self.metering
-
-        return recorder
-    }()
-
     private var link: CADisplayLink?
 
     public init(to: NSString)
@@ -51,19 +37,32 @@ public class Recording : NSObject {
     
     public func prepare()
     {
-        // This feels a weird thing to do, but since Swift won't let you reference properties
-        // without assigning them and I really need to just hit this lazy property to compute it
-        // I'ma go ahead and just assign it to an arbitrary variable.
-        var prepared = recorder
+        recorder = AVAudioRecorder(URL: url, settings: [
+            AVFormatIDKey: kAudioFormatAppleLossless,
+            AVEncoderAudioQualityKey: AVAudioQuality.Max.rawValue,
+            AVEncoderBitRateKey: bitRate,
+            AVNumberOfChannelsKey: channels,
+            AVSampleRateKey: sampleRate
+            ], error: nil)
+
+        recorder.prepareToRecord()
+
+        recorder.delegate = delegate
+        recorder.meteringEnabled = metering
     }
 
     public func record()
     {
+        if recorder == nil {
+            prepare()
+        }
+
+        if metering {
+            startMetering()
+        }
+
         session.setCategory(AVAudioSessionCategoryRecord, error: nil)
 
-        recorder.prepareToRecord()
-
-        startMetering()
         recorder.record()
     }
     
