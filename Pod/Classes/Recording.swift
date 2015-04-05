@@ -5,9 +5,10 @@ import AVFoundation
 }
 
 public class Recording : NSObject {
+    public var delegate: RecorderDelegate!
+
     var session: AVAudioSession!
     var player: AVAudioPlayer!
-    var delegate: RecorderDelegate!
     var metering: Bool
     var url: NSURL!
 
@@ -36,9 +37,8 @@ public class Recording : NSObject {
 
     private var link: CADisplayLink?
 
-    public init(to: NSString, on: RecorderDelegate, withMetering:Bool = false)
+    public init(to: NSString, withMetering:Bool = false)
     {
-        delegate = on
         metering = withMetering
         session  = AVAudioSession.sharedInstance()
         

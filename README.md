@@ -18,7 +18,8 @@ class ViewController: UIViewController, RecorderDelegate {
     {
         super.viewDidLoad()
 
-        recording = Recording(to: "recording.m4a", on: self)
+        recording = Recording(to: "recording.m4a")
+        recording.delegate = self
 
         // Optionally, you can prepare the recording in the background to
         // make it start recording faster when you hit `record()`.
