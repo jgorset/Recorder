@@ -5,7 +5,6 @@ import AVFoundation
 }
 
 public class Recording : NSObject {
-    var player: AVAudioPlayer!
     var session: AVAudioSession!
     var delegate: RecorderDelegate!
     var metering: Bool
@@ -76,8 +75,8 @@ public class Recording : NSObject {
     public func play()
     {
         self.session.setCategory(AVAudioSessionCategoryPlayback, error: nil)
-        
-        self.player = AVAudioPlayer(contentsOfURL: url, error: nil)
+
+        let player = AVAudioPlayer(contentsOfURL: url, error: nil)
         player.play()
     }
 
