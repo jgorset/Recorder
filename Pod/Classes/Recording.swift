@@ -11,7 +11,7 @@ public class Recording : NSObject {
     var delegate: RecorderDelegate!
     var metering: Bool
     var url: NSURL!
-    var meterTimer: NSTimer!
+    var meterLink: CADisplayLink!
     
     var directory: NSString {
         return NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as NSString
@@ -76,7 +76,8 @@ public class Recording : NSObject {
     
     public func startMetering()
     {
-        meterTimer = NSTimer.scheduledTimerWithTimeInterval(0.05, target: self, selector: "updateMeter", userInfo: nil, repeats: true)
+        meterLink = CADisplayLink(target: self, selector: "updateMeter")
+        meterLink.addToRunLoop(NSRunLoop.currentRunLoop(), forMode: NSRunLoopCommonModes)
     }
     
     public func updateMeter()
@@ -90,7 +91,7 @@ public class Recording : NSObject {
     
     public func stopMetering()
     {
-        meterTimer.invalidate()
+        meterLink.invalidate()
     }
     
 }
