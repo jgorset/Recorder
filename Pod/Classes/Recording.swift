@@ -9,7 +9,6 @@ public class Recording : NSObject {
     var delegate: RecorderDelegate!
     var metering: Bool
     var url: NSURL!
-    var meterLink: CADisplayLink!
 
     var bitRate = 192000
     var sampleRate = 44100.0
@@ -33,6 +32,8 @@ public class Recording : NSObject {
 
         return recorder
     }()
+
+    private var link: CADisplayLink?
 
     public init(to: NSString, on: RecorderDelegate, withMetering:Bool = false)
     {
@@ -91,13 +92,13 @@ public class Recording : NSObject {
 
     private func startMetering()
     {
-        meterLink = CADisplayLink(target: self, selector: "updateMeter")
-        meterLink.addToRunLoop(NSRunLoop.currentRunLoop(), forMode: NSRunLoopCommonModes)
+        link = CADisplayLink(target: self, selector: "updateMeter")
+        link?.addToRunLoop(NSRunLoop.currentRunLoop(), forMode: NSRunLoopCommonModes)
     }
     
     private func stopMetering()
     {
-        meterLink.invalidate()
+        link?.invalidate()
     }
     
 }
