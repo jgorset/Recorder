@@ -20,8 +20,6 @@ public class Recording : NSObject {
     var bitRate = 192000
     var sampleRate = 44100.0
     var channels = 1
-    
-    var prepared = false
 
     public init(to: NSString, on: RecorderDelegate, withMetering:Bool = false)
     {
@@ -52,13 +50,11 @@ public class Recording : NSObject {
             recorder.meteringEnabled = metering
             startMetering()
         }
-        
-        prepared = true
     }
 
     public func record()
     {
-        if !prepared {
+        if recorder != nil {
             prepare()
         }
 
