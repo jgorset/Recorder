@@ -9,12 +9,15 @@ public class Recording : NSObject {
 
     var session: AVAudioSession!
     var player: AVAudioPlayer!
-    var metering: Bool
     var url: NSURL!
 
     var bitRate = 192000
     var sampleRate = 44100.0
     var channels = 1
+
+    var metering: Bool {
+        return delegate.respondsToSelector("audioMeterDidUpdate:")
+    }
 
     var directory: NSString {
         return NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as NSString
@@ -37,9 +40,8 @@ public class Recording : NSObject {
 
     private var link: CADisplayLink?
 
-    public init(to: NSString, withMetering:Bool = false)
+    public init(to: NSString)
     {
-        metering = withMetering
         session  = AVAudioSession.sharedInstance()
         
         super.init()
