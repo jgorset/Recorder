@@ -29,7 +29,7 @@ class ViewController: UIViewController, RecorderDelegate {
 
     func start()
     {
-       recording.record()
+        recording.record()
     }
 
     func stop()
