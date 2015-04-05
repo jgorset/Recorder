@@ -80,13 +80,7 @@ public class Recording : NSObject {
         self.player = AVAudioPlayer(contentsOfURL: url, error: nil)
         player.play()
     }
-    
-    public func startMetering()
-    {
-        meterLink = CADisplayLink(target: self, selector: "updateMeter")
-        meterLink.addToRunLoop(NSRunLoop.currentRunLoop(), forMode: NSRunLoopCommonModes)
-    }
-    
+
     public func updateMeter()
     {
         recorder.updateMeters()
@@ -95,8 +89,14 @@ public class Recording : NSObject {
 
         delegate.audioMeterDidUpdate?(db)
     }
+
+    private func startMetering()
+    {
+        meterLink = CADisplayLink(target: self, selector: "updateMeter")
+        meterLink.addToRunLoop(NSRunLoop.currentRunLoop(), forMode: NSRunLoopCommonModes)
+    }
     
-    public func stopMetering()
+    private func stopMetering()
     {
         meterLink.invalidate()
     }
