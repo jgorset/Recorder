@@ -54,7 +54,7 @@ public class Recording : NSObject {
 
     public func record()
     {
-        if recorder != nil {
+        if recorder == nil {
             prepare()
         }
 
