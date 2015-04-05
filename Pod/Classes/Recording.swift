@@ -36,13 +36,13 @@ public class Recording : NSObject {
 
     public init(to: NSString, on: RecorderDelegate, withMetering:Bool = false)
     {
-        self.delegate = on
-        self.metering = withMetering
-        self.session  = AVAudioSession.sharedInstance()
+        delegate = on
+        metering = withMetering
+        session  = AVAudioSession.sharedInstance()
         
         super.init()
         
-        self.url = NSURL(fileURLWithPath: directory.stringByAppendingPathComponent(to))
+        url = NSURL(fileURLWithPath: directory.stringByAppendingPathComponent(to))
     }
     
     public func prepare()
@@ -55,7 +55,7 @@ public class Recording : NSObject {
 
     public func record()
     {
-        self.session.setCategory(AVAudioSessionCategoryRecord, error: nil)
+        session.setCategory(AVAudioSessionCategoryRecord, error: nil)
 
         recorder.prepareToRecord()
 
@@ -74,7 +74,7 @@ public class Recording : NSObject {
     
     public func play()
     {
-        self.session.setCategory(AVAudioSessionCategoryPlayback, error: nil)
+        session.setCategory(AVAudioSessionCategoryPlayback, error: nil)
 
         let player = AVAudioPlayer(contentsOfURL: url, error: nil)
         player.play()
