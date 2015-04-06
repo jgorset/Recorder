@@ -54,23 +54,23 @@ public class Recording : NSObject {
             prepare()
         }
 
-        if metering {
-            startMetering()
-        }
-
         session.setCategory(AVAudioSessionCategoryRecord, error: nil)
 
         recorder.record()
-    }
-    
-    public func stop() {
-        recorder.stop()
 
         if metering {
-            stopMetering()
+            startMetering()
         }
     }
     
+    public func stop() {
+        if metering {
+            stopMetering()
+        }
+
+        recorder.stop()
+    }
+
     public func play() {
         session.setCategory(AVAudioSessionCategoryPlayback, error: nil)
 
