@@ -83,12 +83,17 @@ public class Recording : NSObject {
   }
 
   public func stop() {
-    if metering {
+    switch state {
+    case .Play:
+      player?.stop()
+      player = nil
+    case .Record:
+      recorder?.stop()
+      recorder = nil
       stopMetering()
+    default:
+      break
     }
-
-    recorder?.stop()
-    recorder = nil
 
     state = .None
   }
@@ -112,5 +117,6 @@ public class Recording : NSObject {
 
   private func stopMetering() {
     link?.invalidate()
+    link = nil
   }
 }
