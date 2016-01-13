@@ -41,7 +41,7 @@ public class Recording : NSObject {
 
   // MARK: - Record
 
-  func prepare() throws {
+  public func prepare() throws {
     let settings: [String: AnyObject] = [
       AVFormatIDKey : NSNumber(int: Int32(kAudioFormatAppleLossless)),
       AVEncoderAudioQualityKey: AVAudioQuality.Max.rawValue,
