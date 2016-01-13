@@ -53,12 +53,13 @@ public class Recording : NSObject {
     recorder.meteringEnabled = metering
   }
 
-  public func record() {
+  public func record() throws {
     if recorder == nil {
-      prepare()
+      try prepare()
     }
 
-    session.setCategory(AVAudioSessionCategoryRecord, error: nil)
+    try session.setCategory(AVAudioSessionCategoryPlayAndRecord)
+    try session.overrideOutputAudioPort(AVAudioSessionPortOverride.Speaker)
 
     recorder.record()
 
@@ -75,17 +76,17 @@ public class Recording : NSObject {
     recorder.stop()
   }
 
-  public func play() {
-    session.setCategory(AVAudioSessionCategoryPlayback, error: nil)
+  public func play() throws {
+    try session.setCategory(AVAudioSessionCategoryPlayback)
 
-    player = AVAudioPlayer(contentsOfURL: url, error: nil)
+    player = try AVAudioPlayer(contentsOfURL: url)
     player.play()
   }
 
   public func updateMeter() {
     recorder.updateMeters()
 
-    var dB = recorder.averagePowerForChannel(0)
+    let dB = recorder.averagePowerForChannel(0)
 
     delegate.audioMeterDidUpdate?(dB)
   }
@@ -98,5 +99,4 @@ public class Recording : NSObject {
   private func stopMetering() {
     link?.invalidate()
   }
-
 }
