@@ -19,8 +19,8 @@ public class Recording : NSObject {
   let channels = 1
 
   private let session = AVAudioSession.sharedInstance()
-  private var recorder: AVAudioRecorder!
-  private var player: AVAudioPlayer!
+  private var recorder: AVAudioRecorder?
+  private var player: AVAudioPlayer?
   private var link: CADisplayLink?
 
   var metering: Bool {
@@ -29,7 +29,6 @@ public class Recording : NSObject {
 
   public init(to: String) throws {
     url = NSURL(fileURLWithPath: Recording.directory).URLByAppendingPathComponent(to)
-
     super.init()
   }
 
@@ -43,10 +42,9 @@ public class Recording : NSObject {
     ]
 
     recorder = try AVAudioRecorder(URL: url, settings: settings)
-
-    recorder.prepareToRecord()
-    recorder.delegate = delegate
-    recorder.meteringEnabled = metering
+    recorder?.prepareToRecord()
+    recorder?.delegate = delegate
+    recorder?.meteringEnabled = metering
   }
 
   public func record() throws {
@@ -57,7 +55,7 @@ public class Recording : NSObject {
     try session.setCategory(AVAudioSessionCategoryPlayAndRecord)
     try session.overrideOutputAudioPort(AVAudioSessionPortOverride.Speaker)
 
-    recorder.record()
+    recorder?.record()
 
     if metering {
       startMetering()
@@ -69,17 +67,20 @@ public class Recording : NSObject {
       stopMetering()
     }
 
-    recorder.stop()
+    recorder?.stop()
+    recorder = nil
   }
 
   public func play() throws {
     try session.setCategory(AVAudioSessionCategoryPlayback)
 
     player = try AVAudioPlayer(contentsOfURL: url)
-    player.play()
+    player?.play()
   }
 
-  public func updateMeter() {
+  func updateMeter() {
+    guard let recorder = recorder else { return }
+
     recorder.updateMeters()
 
     let dB = recorder.averagePowerForChannel(0)
