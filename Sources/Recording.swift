@@ -2,7 +2,7 @@ import AVFoundation
 import QuartzCore
 
 @objc public protocol RecorderDelegate: AVAudioRecorderDelegate {
-  func audioMeterDidUpdate(dB: Float)
+  optional func audioMeterDidUpdate(dB: Float)
 }
 
 public class Recording : NSObject {
@@ -12,25 +12,23 @@ public class Recording : NSObject {
   }
 
   public weak var delegate: RecorderDelegate?
-  public var metering: Bool = false
+  public private(set) var url: NSURL
 
   private let session = AVAudioSession.sharedInstance()
   private var recorder: AVAudioRecorder!
-  var player: AVAudioPlayer!
-  var url: NSURL
+  private var player: AVAudioPlayer!
 
   var bitRate = 192000
   var sampleRate = 44100.0
   var channels = 1
 
-  var meteringEnabled: Bool {
-    return metering && delegate != nil
+  var metering: Bool {
+    return delegate?.respondsToSelector("audioMeterDidUpdate:") == true
   }
 
   private var link: CADisplayLink?
 
-  public init(to: String, metering: Bool = false) throws {
-    self.metering = metering
+  public init(to: String) throws {
     url = NSURL(fileURLWithPath: Recording.directory).URLByAppendingPathComponent(to)
 
     super.init()
@@ -49,7 +47,7 @@ public class Recording : NSObject {
 
     recorder.prepareToRecord()
     recorder.delegate = delegate
-    recorder.meteringEnabled = meteringEnabled
+    recorder.meteringEnabled = metering
   }
 
   public func record() throws {
@@ -62,13 +60,13 @@ public class Recording : NSObject {
 
     recorder.record()
 
-    if meteringEnabled {
+    if metering {
       startMetering()
     }
   }
 
   public func stop() {
-    if meteringEnabled {
+    if metering {
       stopMetering()
     }
 
@@ -87,7 +85,7 @@ public class Recording : NSObject {
 
     let dB = recorder.averagePowerForChannel(0)
 
-    delegate?.audioMeterDidUpdate(dB)
+    delegate?.audioMeterDidUpdate?(dB)
   }
 
   private func startMetering() {
