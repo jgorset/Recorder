@@ -34,7 +34,7 @@ public class Recording : NSObject {
 
   // MARK: - Initializers
 
-  public init(to: String) throws {
+  public init(to: String) {
     url = NSURL(fileURLWithPath: Recording.directory).URLByAppendingPathComponent(to)
     super.init()
   }
