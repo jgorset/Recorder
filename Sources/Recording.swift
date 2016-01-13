@@ -32,12 +32,16 @@ public class Recording : NSObject {
     return delegate?.respondsToSelector("audioMeterDidUpdate:") == true
   }
 
+  // MARK: - Initializers
+
   public init(to: String) throws {
     url = NSURL(fileURLWithPath: Recording.directory).URLByAppendingPathComponent(to)
     super.init()
   }
 
-  public func prepare() throws {
+  // MARK: - Record
+
+  func prepare() throws {
     let settings: [String: AnyObject] = [
       AVFormatIDKey : NSNumber(int: Int32(kAudioFormatAppleLossless)),
       AVEncoderAudioQualityKey: AVAudioQuality.Max.rawValue,
@@ -68,6 +72,16 @@ public class Recording : NSObject {
     }
   }
 
+  // MARK: - Playback
+
+  public func play() throws {
+    try session.setCategory(AVAudioSessionCategoryPlayback)
+
+    player = try AVAudioPlayer(contentsOfURL: url)
+    player?.play()
+    state = .Play
+  }
+
   public func stop() {
     if metering {
       stopMetering()
@@ -79,13 +93,7 @@ public class Recording : NSObject {
     state = .None
   }
 
-  public func play() throws {
-    try session.setCategory(AVAudioSessionCategoryPlayback)
-
-    player = try AVAudioPlayer(contentsOfURL: url)
-    player?.play()
-    state = .Play
-  }
+  // MARK: - Metering
 
   func updateMeter() {
     guard let recorder = recorder else { return }
