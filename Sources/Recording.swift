@@ -21,6 +21,8 @@ public class Recording : NSObject {
     return delegate.respondsToSelector("audioMeterDidUpdate:")
   }
 
+
+
   var directory: NSString {
     return NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as NSString
   }
@@ -35,17 +37,18 @@ public class Recording : NSObject {
     url = NSURL(fileURLWithPath: directory.stringByAppendingPathComponent(to))
   }
 
-  public func prepare() {
-    recorder = AVAudioRecorder(URL: url, settings: [
-      AVFormatIDKey: kAudioFormatAppleLossless,
+  public func prepare() throws {
+    let settings: [String: AnyObject] = [
+      AVFormatIDKey : NSNumber(int: Int32(kAudioFormatAppleLossless)),
       AVEncoderAudioQualityKey: AVAudioQuality.Max.rawValue,
       AVEncoderBitRateKey: bitRate,
       AVNumberOfChannelsKey: channels,
       AVSampleRateKey: sampleRate
-      ], error: nil)
+    ]
+
+    recorder = try AVAudioRecorder(URL: url, settings: settings)
 
     recorder.prepareToRecord()
-
     recorder.delegate = delegate
     recorder.meteringEnabled = metering
   }
