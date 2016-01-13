@@ -7,13 +7,17 @@ import QuartzCore
 
 public class Recording : NSObject {
 
+  static var directory: String {
+    return NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
+  }
+
   public weak var delegate: RecorderDelegate?
   public var metering: Bool = false
 
-  var session: AVAudioSession!
-  var recorder: AVAudioRecorder!
+  private let session = AVAudioSession.sharedInstance()
+  private var recorder: AVAudioRecorder!
   var player: AVAudioPlayer!
-  var url: NSURL!
+  var url: NSURL
 
   var bitRate = 192000
   var sampleRate = 44100.0
@@ -23,16 +27,11 @@ public class Recording : NSObject {
     return metering && delegate != nil
   }
 
-  var directory: NSString {
-    return NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as NSString
-  }
-
   private var link: CADisplayLink?
 
-  public init(to: String, metering: Bool = false) {
+  public init(to: String, metering: Bool = false) throws {
     self.metering = metering
-    session  = AVAudioSession.sharedInstance()
-    url = NSURL(fileURLWithPath: directory.stringByAppendingPathComponent(to))
+    url = NSURL(fileURLWithPath: Recording.directory).URLByAppendingPathComponent(to)
 
     super.init()
   }
