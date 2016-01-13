@@ -14,13 +14,13 @@ public class Recording : NSObject {
   public weak var delegate: RecorderDelegate?
   public private(set) var url: NSURL
 
+  let bitRate = 192000
+  let sampleRate = 44100.0
+  let channels = 1
+
   private let session = AVAudioSession.sharedInstance()
   private var recorder: AVAudioRecorder!
   private var player: AVAudioPlayer!
-
-  var bitRate = 192000
-  var sampleRate = 44100.0
-  var channels = 1
 
   var metering: Bool {
     return delegate?.respondsToSelector("audioMeterDidUpdate:") == true
