@@ -1,0 +1,14 @@
+PODS:
+  - Recorder (0.1.0)
+
+DEPENDENCIES:
+  - Recorder (from `../../`)
+
+EXTERNAL SOURCES:
+  Recorder:
+    :path: ../../
+
+SPEC CHECKSUMS:
+  Recorder: b03b78abfd9517d33b2daaff4d640dfda7241d0f
+
+COCOAPODS: 0.39.0

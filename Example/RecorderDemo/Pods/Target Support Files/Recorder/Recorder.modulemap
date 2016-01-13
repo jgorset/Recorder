@@ -1,0 +1,6 @@
+framework module Recorder {
+  umbrella header "Recorder-umbrella.h"
+
+  export *
+  module * { export * }
+}
