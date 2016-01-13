@@ -7,12 +7,17 @@ import QuartzCore
 
 public class Recording : NSObject {
 
+  @objc public enum State: Int {
+    case None, Record, Play
+  }
+
   static var directory: String {
     return NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
   }
 
   public weak var delegate: RecorderDelegate?
   public private(set) var url: NSURL
+  public private(set) var state: State = .None
 
   let bitRate = 192000
   let sampleRate = 44100.0
@@ -56,6 +61,7 @@ public class Recording : NSObject {
     try session.overrideOutputAudioPort(AVAudioSessionPortOverride.Speaker)
 
     recorder?.record()
+    state = .Record
 
     if metering {
       startMetering()
@@ -69,6 +75,8 @@ public class Recording : NSObject {
 
     recorder?.stop()
     recorder = nil
+
+    state = .None
   }
 
   public func play() throws {
@@ -76,6 +84,7 @@ public class Recording : NSObject {
 
     player = try AVAudioPlayer(contentsOfURL: url)
     player?.play()
+    state = .Play
   }
 
   func updateMeter() {
