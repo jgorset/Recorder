@@ -2,11 +2,13 @@ import AVFoundation
 import QuartzCore
 
 @objc public protocol RecorderDelegate: AVAudioRecorderDelegate {
-  optional func audioMeterDidUpdate(dB: Float)
+  func audioMeterDidUpdate(dB: Float)
 }
 
 public class Recording : NSObject {
-  public var delegate: RecorderDelegate!
+
+  public weak var delegate: RecorderDelegate?
+  public var metering: Bool = false
 
   var session: AVAudioSession!
   var recorder: AVAudioRecorder!
@@ -17,11 +19,9 @@ public class Recording : NSObject {
   var sampleRate = 44100.0
   var channels = 1
 
-  var metering: Bool {
-    return delegate.respondsToSelector("audioMeterDidUpdate:")
+  var meteringEnabled: Bool {
+    return metering && delegate != nil
   }
-
-
 
   var directory: NSString {
     return NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as NSString
@@ -29,12 +29,12 @@ public class Recording : NSObject {
 
   private var link: CADisplayLink?
 
-  public init(to: String) {
+  public init(to: String, metering: Bool = false) {
+    self.metering = metering
     session  = AVAudioSession.sharedInstance()
+    url = NSURL(fileURLWithPath: directory.stringByAppendingPathComponent(to))
 
     super.init()
-
-    url = NSURL(fileURLWithPath: directory.stringByAppendingPathComponent(to))
   }
 
   public func prepare() throws {
@@ -50,7 +50,7 @@ public class Recording : NSObject {
 
     recorder.prepareToRecord()
     recorder.delegate = delegate
-    recorder.meteringEnabled = metering
+    recorder.meteringEnabled = meteringEnabled
   }
 
   public func record() throws {
@@ -63,13 +63,13 @@ public class Recording : NSObject {
 
     recorder.record()
 
-    if metering {
+    if meteringEnabled {
       startMetering()
     }
   }
 
   public func stop() {
-    if metering {
+    if meteringEnabled {
       stopMetering()
     }
 
@@ -88,7 +88,7 @@ public class Recording : NSObject {
 
     let dB = recorder.averagePowerForChannel(0)
 
-    delegate.audioMeterDidUpdate?(dB)
+    delegate?.audioMeterDidUpdate(dB)
   }
 
   private func startMetering() {
