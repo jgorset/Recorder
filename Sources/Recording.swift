@@ -21,12 +21,11 @@ public class Recording : NSObject {
   private let session = AVAudioSession.sharedInstance()
   private var recorder: AVAudioRecorder!
   private var player: AVAudioPlayer!
+  private var link: CADisplayLink?
 
   var metering: Bool {
     return delegate?.respondsToSelector("audioMeterDidUpdate:") == true
   }
-
-  private var link: CADisplayLink?
 
   public init(to: String) throws {
     url = NSURL(fileURLWithPath: Recording.directory).URLByAppendingPathComponent(to)
