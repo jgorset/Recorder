@@ -19,9 +19,9 @@ public class Recording : NSObject {
   public private(set) var url: NSURL
   public private(set) var state: State = .None
 
-  let bitRate = 192000
-  let sampleRate = 44100.0
-  let channels = 1
+  public var bitRate = 192000
+  public var sampleRate = 44100.0
+  public var channels = 1
 
   private let session = AVAudioSession.sharedInstance()
   private var recorder: AVAudioRecorder?
