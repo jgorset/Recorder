@@ -12,50 +12,58 @@ import UIKit
 import Recorder
 
 class ViewController: UIViewController, RecorderDelegate {
-    var recording: Recording!
+  var recording: Recording!
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+  override func viewDidLoad() {
+    super.viewDidLoad()
 
-        recording = Recording(to: "recording.m4a")
-        recording.delegate = self
+    recording = Recording(to: "recording.m4a")
+    recording.delegate = self
 
-        // Optionally, you can prepare the recording in the background to
-        // make it start recording faster when you hit `record()`.
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-            recording.prepare()
-        }
+    // Optionally, you can prepare the recording in the background to
+    // make it start recording faster when you hit `record()`.
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+      do {
+        try self.recording.prepare()
+      } catch {
+        print(error)
+      }
     }
+  }
 
-    func start() {
-        recording.record()
+  func start() {
+    do {
+      try recording.record()
+    } catch {
+      print(error)
     }
+  }
 
-    func stop() {
-        recording.stop()
+  func stop() {
+    recording.stop()
+  }
+
+  func play() {
+    do {
+      try recording.play()
+    } catch {
+      print(error)
     }
-
-    func play() {
-        recording.play()
-    }
-
+  }
 }
 ```
 
-`RecorderDelegate` is just a subclass of `AVAudioRecorderDelegate`, so if you need to delegate things
-you can just implement those methods as you would normally do.
+`RecorderDelegate` just extends `AVAudioRecorderDelegate`, so if you need to
+delegate things you can just implement those methods as you would normally do.
 
 ## Metering
 
 You can meter incoming audio levels by implementing `audioMeterDidUpdate`:
 
 ```swift
-
-func audioMeterDidUpdate(db: Float)
-{
-    NSLog("db level: %f", db)
+func audioMeterDidUpdate(db: Float) {
+  print("db level: %f", db)
 }
-
 ```
 
 ## Configuration
@@ -86,4 +94,4 @@ Johannes Gorset, jgorset@gmail.com
 
 ## License
 
-Recorder is available under the MIT license. See the LICENSE file for more info.
+**Recorder** is available under the MIT license. See the LICENSE file for more info.
